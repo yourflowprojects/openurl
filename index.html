@@ -1,0 +1,25 @@
+<script>
+  const u = new URLSearchParams(window.location.search);
+  const l = u.get("r");
+  const p = u.get("w");
+  if (l !== null && l !== "" && /^https?:\/\//.test(l)) {
+    if (p === "true") w(l);
+    else t(l);
+    if (window.history.length <= 1) window.close();
+    else history.back();
+  }
+  function t(h) {
+    Object.assign(document.createElement("a"), {
+      target: "_blank",
+      rel: "noopener noreferrer",
+      href: h,
+    }).click();
+  }
+  function w(h) {
+    window.open(
+      h,
+      "page",
+      "width=1000,height=800,scrollbars=yes,resizable=yes"
+    );
+  }
+</script>
