@@ -1,25 +1,67 @@
-<script>
-  const u = new URLSearchParams(window.location.search);
-  const l = u.get("r");
-  const p = u.get("w");
-  if (l !== null && l !== "" && /^https?:\/\//.test(l)) {
-    if (p === "true") w(l);
-    else t(l);
-    if (window.history.length <= 1) window.close();
-    else history.back();
-  }
-  function t(h) {
-    Object.assign(document.createElement("a"), {
-      target: "_blank",
-      rel: "noopener noreferrer",
-      href: h,
-    }).click();
-  }
-  function w(h) {
-    window.open(
-      h,
-      "page",
-      "width=1000,height=800,scrollbars=yes,resizable=yes"
-    );
-  }
-</script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Redirect</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #fceabb, #00eeff);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        backdrop-filter: blur(6px);
+        padding: 2rem 3rem;
+        border-radius: 1rem;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" style="display: none">
+      <h1>Enable pop-ups and reload</h1>
+      <p>
+        Please enable pop-ups in your browser settings and reload this page to
+        continue.
+        <br />
+        If you have already enabled pop-ups, try clicking the link again.
+      </p>
+    </div>
+
+    <script>
+      const u = new URLSearchParams(window.location.search);
+      const l = u.get("r");
+      const p = u.get("w");
+      if (
+        l !== null &&
+        l !== "" &&
+        /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/.test(
+          l
+        )
+      ) {
+        var t =
+          p == "true"
+            ? (t = window.open(
+                l,
+                "page",
+                "width=1000,height=800,scrollbars=yes,resizable=yes"
+              ))
+            : window.open(l, "_blank");
+        if (t === null || typeof t === "undefined") {
+          document.querySelector(".container").style.display = "block";
+          alert("Popup was blocked! Please enable pop-ups for this site.");
+        } else {
+          if (window.history.length <= 1) window.close();
+          else history.back();
+        }
+      }
+    </script>
+  </body>
+</html>
